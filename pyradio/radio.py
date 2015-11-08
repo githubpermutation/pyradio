@@ -171,6 +171,16 @@ class PyRadio(object):
         elif self.selection < self.startPos:
             self.startPos = self.selection
 
+    def findStation(self, query, startidx):
+        for nr, station in enumerate(self.stations):
+            if nr <= startidx:
+                continue
+            if station[0].find(query) != -1:
+                self.log.write(station[0])
+                self.setStation(nr)
+                self.refreshBody()
+                break
+
     def playSelection(self):
         self.playing = self.selection
         name = self.stations[self.selection][0]
@@ -203,6 +213,11 @@ class PyRadio(object):
                     self.find = self.find[:-1]
                     self.log.write('/'+self.find)
                     return
+
+            if char in (curses.KEY_ENTER, ord('\n'), ord('\r')):
+                self.findStation(self.find, self.selection)
+                self.mode = ""
+                return
 
             if char in map(ord,list(string.printable)):
                 self.find += chr(char)
