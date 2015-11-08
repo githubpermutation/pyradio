@@ -27,6 +27,7 @@ class PyRadio(object):
     startPos = 0
     selection = 0
     playing = -1
+    mode = ""
 
     def __init__(self, stations, play=False):
         self.stations = stations
@@ -182,6 +183,22 @@ class PyRadio(object):
     def keypress(self, char):
         # Number of stations to change with the page up/down keys
         pageChange = 5
+
+        if self.mode == "find":
+            if char == 27:
+                self.bodyWin.nodelay(True)
+                c = self.bodyWin.getch()
+                if c == -1:
+                    #esc
+                    self.log.write('')
+                    self.mode = ""
+                self.bodyWin.nodelay(False)
+                return
+
+        if char == ord('/'):
+            self.log.write('/')
+            self.mode = "find"
+            return
 
         if char == curses.KEY_EXIT or char == ord('q'):
             self.player.close()
