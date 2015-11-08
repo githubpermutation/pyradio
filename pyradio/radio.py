@@ -8,6 +8,7 @@ import curses
 import logging
 import os
 import random
+import string
 
 from .log import Log
 from . import player
@@ -28,6 +29,7 @@ class PyRadio(object):
     selection = 0
     playing = -1
     mode = ""
+    find = ""
 
     def __init__(self, stations, play=False):
         self.stations = stations
@@ -191,13 +193,20 @@ class PyRadio(object):
                 if c == -1:
                     #esc
                     self.log.write('')
+                    self.find = ""
                     self.mode = ""
                 self.bodyWin.nodelay(False)
                 return
 
+            if char in map(ord,list(string.printable)):
+                self.find += chr(char)
+                self.log.write('/'+self.find)
+            return
+
         if char == ord('/'):
             self.log.write('/')
             self.mode = "find"
+            self.find = ""
             return
 
         if char == curses.KEY_EXIT or char == ord('q'):
