@@ -186,6 +186,15 @@ class PyRadio(object):
                     return (nr, station)
         return (None, None)
 
+    def setStationByFind(self, searchResult):
+        nr = searchResult[0]
+        station = searchResult[1]
+        if station:
+            self.log.write(station[0])
+            self.setStation(nr)
+            self.refreshBody()
+        self.mode = ""
+
     def playSelection(self):
         self.playing = self.selection
         name = self.stations[self.selection][0]
@@ -220,12 +229,7 @@ class PyRadio(object):
                     return
 
             if char in (curses.KEY_ENTER, ord('\n'), ord('\r')):
-                nr, station = self.findStation(self.find, self.selection)
-                if station:
-                    self.log.write(station[0])
-                    self.setStation(nr)
-                    self.refreshBody()
-                self.mode = ""
+                self.setStationByFind(self.findStation(self.find, self.selection))
                 return
 
             if char in map(ord,list(string.printable)):
@@ -234,21 +238,11 @@ class PyRadio(object):
             return
 
         if char == ord('n'):
-            nr, station = self.findStation(self.find, self.selection)
-            if station:
-                self.log.write(station[0])
-                self.setStation(nr)
-                self.refreshBody()
-            self.mode = ""
+            self.setStationByFind(self.findStation(self.find, self.selection))
             return
 
         if char == ord('N'):
-            nr, station = self.findStation(self.find, self.selection, True)
-            if station:
-                self.log.write(station[0])
-                self.setStation(nr)
-                self.refreshBody()
-            self.mode = ""
+            self.setStationByFind(self.findStation(self.find, self.selection, True))
             return
 
         if char == ord('/'):
