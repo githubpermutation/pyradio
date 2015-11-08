@@ -239,6 +239,11 @@ class PyRadio(object):
             self.mode = ""
             return
 
+        if char == ord('N'):
+            self.findStation(self.find, self.selection, True)
+            self.mode = ""
+            return
+
         if char == ord('/'):
             self.log.write('/')
             self.mode = "find"
