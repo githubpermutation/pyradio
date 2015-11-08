@@ -177,19 +177,14 @@ class PyRadio(object):
                 if nr >= startidx:
                     continue
                 if station[0].find(query) != -1:
-                    self.log.write(station[0])
-                    self.setStation(nr)
-                    self.refreshBody()
-                    break
+                    return (nr, station)
         else:
             for nr, station in enumerate(self.stations):
                 if nr <= startidx:
                     continue
                 if station[0].find(query) != -1:
-                    self.log.write(station[0])
-                    self.setStation(nr)
-                    self.refreshBody()
-                    break
+                    return (nr, station)
+        return (None, None)
 
     def playSelection(self):
         self.playing = self.selection
@@ -225,7 +220,11 @@ class PyRadio(object):
                     return
 
             if char in (curses.KEY_ENTER, ord('\n'), ord('\r')):
-                self.findStation(self.find, self.selection)
+                nr, station = self.findStation(self.find, self.selection)
+                if station:
+                    self.log.write(station[0])
+                    self.setStation(nr)
+                    self.refreshBody()
                 self.mode = ""
                 return
 
@@ -235,12 +234,20 @@ class PyRadio(object):
             return
 
         if char == ord('n'):
-            self.findStation(self.find, self.selection)
+            nr, station = self.findStation(self.find, self.selection)
+            if station:
+                self.log.write(station[0])
+                self.setStation(nr)
+                self.refreshBody()
             self.mode = ""
             return
 
         if char == ord('N'):
-            self.findStation(self.find, self.selection, True)
+            nr, station = self.findStation(self.find, self.selection, True)
+            if station:
+                self.log.write(station[0])
+                self.setStation(nr)
+                self.refreshBody()
             self.mode = ""
             return
 
