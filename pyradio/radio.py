@@ -198,6 +198,12 @@ class PyRadio(object):
                 self.bodyWin.nodelay(False)
                 return
 
+            if char == curses.KEY_BACKSPACE:
+                if len(self.find) > 0:
+                    self.find = self.find[:-1]
+                    self.log.write('/'+self.find)
+                    return
+
             if char in map(ord,list(string.printable)):
                 self.find += chr(char)
                 self.log.write('/'+self.find)
