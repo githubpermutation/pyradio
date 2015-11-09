@@ -209,6 +209,7 @@ class PyRadio(object):
     def keypress(self, char):
         # Number of stations to change with the page up/down keys
         pageChange = 5
+        maxFindLength = 50
 
         if self.mode == "find":
             if char == 27:
@@ -237,6 +238,10 @@ class PyRadio(object):
                 return
 
             if char in map(ord,list(string.printable)):
+                if len(self.find) < maxFindLength:
+                    self.find += chr(char)
+                    self.log.write('/'+self.find)
+
             return
 
         if char == ord('n'):
