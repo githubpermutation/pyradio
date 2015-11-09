@@ -227,14 +227,16 @@ class PyRadio(object):
                     self.find = self.find[:-1]
                     self.log.write('/'+self.find)
                     return
+                else:
+                    self.log.write('')
+                    self.mode = ""
+                    return
 
             if char in (curses.KEY_ENTER, ord('\n'), ord('\r')):
                 self.setStationByFind(self.findStation(self.find, self.selection))
                 return
 
             if char in map(ord,list(string.printable)):
-                self.find += chr(char)
-                self.log.write('/'+self.find)
             return
 
         if char == ord('n'):
