@@ -233,7 +233,8 @@ class PyRadio(object):
                     return
 
             if char in (curses.KEY_ENTER, ord('\n'), ord('\r')):
-                self.setStationByFind(*self.findStation(self.find, self.selection))
+                nr, name, url = self.findStation(self.find, self.selection)
+                self.setStationByFind(nr, name, url)
                 return
 
             if char in map(ord,list(string.printable)):
@@ -244,11 +245,13 @@ class PyRadio(object):
             return
 
         if char == ord('n'):
-            self.setStationByFind(*self.findStation(self.find, self.selection))
+            nr, name, url = self.findStation(self.find, self.selection)
+            self.setStationByFind(nr, name, url)
             return
 
         if char == ord('N'):
-            self.setStationByFind(*self.findStation(self.find, self.selection, True))
+            nr, name, url = self.findStation(self.find, self.selection, True)
+            self.setStationByFind(nr, name, url)
             return
 
         if char == ord('/'):
