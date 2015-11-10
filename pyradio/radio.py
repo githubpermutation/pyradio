@@ -30,6 +30,7 @@ class PyRadio(object):
     playing = -1
     mode = ""
     find = ""
+    jumpnr = ""
 
     def __init__(self, stations, play=False):
         self.stations = stations
@@ -256,6 +257,28 @@ class PyRadio(object):
             self.log.write('/')
             self.mode = "find"
             self.find = ""
+            return
+
+        if char == ord('G'):
+            if self.jumpnr == "":
+                self.setStation(-1)
+            else:
+                jumpto=min(int(self.jumpnr)-1,len(self.stations)-1)
+                jumpto=max(0,jumpto)
+                self.setStation(jumpto)
+            self.jumpnr = ""
+            self.refreshBody()
+            return
+
+        if char in map(ord,map(str,range(0,9))):
+            self.jumpnr += chr(char)
+            return
+        else:
+            self.jumpnr = ""
+
+        if char == ord('g'):
+            self.setStation(0)
+            self.refreshBody()
             return
 
         if char == curses.KEY_EXIT or char == ord('q'):
