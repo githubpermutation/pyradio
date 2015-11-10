@@ -179,17 +179,15 @@ class PyRadio(object):
             stationNumbers = range(startIdx+1, len(self.stations))
 
         for nr in stationNumbers:
-            station = self.stations[nr]
-            if station[0].find(query) != -1:
-                return (nr, station)
+            name, url = self.stations[nr]
+            if name.find(query) != -1:
+                return (nr, name, url)
 
         return (None, None)
 
-    def setStationByFind(self, searchResult):
-        nr = searchResult[0]
-        station = searchResult[1]
+    def setStationByFind(self, nr, name, url):
         if station:
-            self.log.write(station[0])
+            self.log.write(name)
             self.setStation(nr)
         else:
             self.log.write("Nothing found")
@@ -235,7 +233,7 @@ class PyRadio(object):
                     return
 
             if char in (curses.KEY_ENTER, ord('\n'), ord('\r')):
-                self.setStationByFind(self.findStation(self.find, self.selection))
+                self.setStationByFind(*self.findStation(self.find, self.selection))
                 return
 
             if char in map(ord,list(string.printable)):
@@ -246,11 +244,11 @@ class PyRadio(object):
             return
 
         if char == ord('n'):
-            self.setStationByFind(self.findStation(self.find, self.selection))
+            self.setStationByFind(*self.findStation(self.find, self.selection))
             return
 
         if char == ord('N'):
-            self.setStationByFind(self.findStation(self.find, self.selection, True))
+            self.setStationByFind(*self.findStation(self.find, self.selection, True))
             return
 
         if char == ord('/'):
