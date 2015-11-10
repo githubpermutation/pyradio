@@ -193,7 +193,9 @@ class PyRadio(object):
         if station:
             self.log.write(station[0])
             self.setStation(nr)
-            self.refreshBody()
+        else:
+            self.log.write("Nothing found")
+        self.refreshBody()
         self.mode = ""
 
     def playSelection(self):
