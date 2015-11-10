@@ -183,10 +183,10 @@ class PyRadio(object):
             if name.find(query) != -1:
                 return (nr, name, url)
 
-        return (None, None)
+        return (None, None, None)
 
     def setStationByFind(self, nr, name, url):
-        if station:
+        if name:
             self.log.write(name)
             self.setStation(nr)
         else:
