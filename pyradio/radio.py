@@ -180,7 +180,7 @@ class PyRadio(object):
 
         for nr in stationNumbers:
             name, url = self.stations[nr]
-            if name.find(query) != -1:
+            if name.upper().lower().find(query.upper().lower()) != -1:
                 return (nr, name, url)
 
         return (None, None, None)
