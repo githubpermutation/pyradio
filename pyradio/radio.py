@@ -174,7 +174,7 @@ class PyRadio(object):
 
     def findStation(self, query, startIdx, reverse=False):
         if reverse:
-            stationNumbers = range(startIdx-1, 0, -1)
+            stationNumbers = range(startIdx-1, -1, -1)
         else:
             stationNumbers = range(startIdx+1, len(self.stations))
 
